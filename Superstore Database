@@ -33,12 +33,17 @@ Select price, item_name
 from superstore
 order by price;
 
---Write your own SQL query that will show a statistic about the item prices, like a sum, average, minimum, maximum, or count.
+--Write a SQL query that will show a statistic about the item prices, like a sum, average, minimum, maximum, or count.
 Select max(item_name), price
 from superstore
 group by price;
 
---Write your own SQL query that will show a statistic about the price for items in the category of "Kitchen Supplies".
+--Write a SQL query that will show a statistic about the price for items in the category of "Kitchen Supplies".
 Select min(price), item_name
 from superstore
 where category = 'Kitchen Supplies';
+
+--Write a SQL query that will show how many Air Purifiers are in stock.
+SELECT COUNT (stock_quantity), item_name
+FROM superstore
+WHERE item_name="Air Purifier" 
