@@ -68,6 +68,15 @@ AND healthcare_benefits=1
 ;
 
 
+--Group companies by industry and calculate the average number of paid time off days. Only include industries where the average is greater than 15 days. Display the industry and the average paid time off days.
+
+SELECT industry, 
+ ROUND (  AVG(paid_time_off_days), 2) AS avg_paid_time_off
+FROM fortune_companies
+GROUP BY industry
+HAVING AVG(paid_time_off_days) > 15;
+
+
 --Write a query that categorizes companies into tenure_category of 'High', 'Medium', 'Low'. Display the company name, industry, avg_employee_tenure, and the new tenure_category.
 
 SELECT company_name, industry, avg_employee_tenure
@@ -79,43 +88,26 @@ END AS tenure_category
 FROM fortune_companies
 ;
 
---Group companies by industry and calculate the average number of paid time off days. Only include industries where the average is greater than 15 days. Display the industry and the average paid time off days.
-
-SELECT 
-    industry, 
- ROUND (  AVG(paid_time_off_days), 2) AS avg_paid_time_off
-FROM 
-    fortune_companies
-GROUP BY 
-    industry
-HAVING 
-    AVG(paid_time_off_days) > 15;
-
 
 --Write a query to analyze companies that offer maternity leave of 10 weeks or more and belong to industries NOT IN ('Retail', 'Energy'). Group them by industry and categorize them by company_size 'Large, Medium, Small'. Display the industry, company_size, and count of companies in each group, but only include groups with more than 3 companies. 
 
-SELECT 
-    industry,
-    CASE 
-        WHEN employees > 50000 THEN 'Large'
-        WHEN employees BETWEEN 10001 AND 50000 THEN 'Medium'
-        ELSE 'Small'
-    END AS company_size,
-    COUNT(*) AS company_count
-FROM 
-    fortune_companies
-WHERE 
-    maternity_leave_weeks >= 10
-    AND industry NOT IN ('Retail', 'Energy')
-GROUP BY 
-    industry,
-    CASE 
-        WHEN employees > 50000 THEN 'Large'
-        WHEN employees BETWEEN 10001 AND 50000 THEN 'Medium'
-        ELSE 'Small'
-    END
-HAVING 
-    COUNT(*) > 3;
+SELECT industry,
+CASE 
+WHEN employees > 50000 THEN 'Large'
+WHEN employees BETWEEN 10001 AND 50000 THEN 'Medium'
+ELSE 'Small'
+END AS company_size,
+COUNT(*) AS company_count
+FROM fortune_companies
+WHERE maternity_leave_weeks >= 10
+AND industry NOT IN ('Retail', 'Energy')
+GROUP BY industry,
+CASE 
+WHEN employees > 50000 THEN 'Large'
+WHEN employees BETWEEN 10001 AND 50000 THEN 'Medium'
+ELSE 'Small'
+END
+HAVING COUNT(*) > 3;
 
 
     
