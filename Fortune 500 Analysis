@@ -66,3 +66,15 @@ WHERE paid_time_off_days>20
 AND healthcare_benefits=1
 ;
 
+
+--Write a query that categorizes companies into tenure_category of 'High', 'Medium', 'Low'. Display the company name, industry, avg_employee_tenure, and the new tenure_category.
+SELECT company_name, industry, avg_employee_tenure
+,CASE 
+WHEN avg_employee_tenure >= 7 THEN "High"
+WHEN avg_employee_tenure >= 6 THEN  "Medium"
+ELSE "Low"
+END AS tenure_category
+FROM fortune_companies
+;
+
+
