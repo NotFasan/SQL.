@@ -60,6 +60,7 @@ VALUES
 
 
 --Which companies have healthcare benefits *and* at least 20 paid time off days? 
+
 SELECT company_name
 FROM fortune_companies
 WHERE paid_time_off_days>20
@@ -68,13 +69,25 @@ AND healthcare_benefits=1
 
 
 --Write a query that categorizes companies into tenure_category of 'High', 'Medium', 'Low'. Display the company name, industry, avg_employee_tenure, and the new tenure_category.
+
 SELECT company_name, industry, avg_employee_tenure
 ,CASE 
-WHEN avg_employee_tenure >= 7 THEN "High"
-WHEN avg_employee_tenure >= 6 THEN  "Medium"
-ELSE "Low"
+WHEN avg_employee_tenure >= 7 THEN "High Tenure"
+WHEN avg_employee_tenure >= 5 THEN  "Medium Tenure"
+ELSE "Low Tenure"
 END AS tenure_category
 FROM fortune_companies
 ;
 
+--Group companies by industry and calculate the average number of paid time off days. Only include industries where the average is greater than 15 days. Display the industry and the average paid time off days.
+
+SELECT 
+    industry, 
+ ROUND (  AVG(paid_time_off_days), 2) AS avg_paid_time_off
+FROM 
+    fortune_companies
+GROUP BY 
+    industry
+HAVING 
+    AVG(paid_time_off_days) > 15;
 
