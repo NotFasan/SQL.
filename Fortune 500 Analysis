@@ -67,6 +67,12 @@ WHERE paid_time_off_days>20
 AND healthcare_benefits=1
 ;
 
+--Write a query to calculate the revenue per employee for each company and display the company name, industry, and the calculated value as revenue_per_employee. Round the answer to 4 decimals. 
+
+SELECT company_name, industry 
+,ROUND ( (revenue/employees) ,4) AS revenue_per_employee 
+FROM fortune_companies ; 
+
 
 --Group companies by industry and calculate the average number of paid time off days. Only include industries where the average is greater than 15 days. Display the industry and the average paid time off days.
 
