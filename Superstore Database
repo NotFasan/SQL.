@@ -47,3 +47,4 @@ where category = 'Kitchen Supplies';
 SELECT COUNT (stock_quantity), item_name
 FROM superstore
 WHERE item_name="Air Purifier" 
+.
