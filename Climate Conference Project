@@ -122,4 +122,56 @@ INSERT INTO hotels VALUES
  ;
 
 
+(QUERIES)
 
+--(LEFT JOIN) List all VIPs and their associated hotel reservations, including VIPs who may not have made a reservation.
+SELECT v.member_id, v.first_name, v.last_name, r.hotel
+FROM vips v
+LEFT JOIN reservations r ON v.member_id = r.member_id;
+
+
+--(INNER JOIN) Find the names of VIPs who have RSVP’d for the welcome event.
+SELECT vips.first_name, vips.last_name, reservations.welcome_rsvp
+FROM vips
+INNER JOIN reservations 
+ON vips.member_id = reservations.member_id 
+WHERE reservations.welcome_rsvp = 1 ; 
+
+
+--(Multiple JOINs) Retrieve event names, attendee names, and their hotel names.
+SELECT events.event_name, vips.first_name, vips.last_name, hotels.hotel_name
+FROM events
+INNER JOIN vips
+ON events.event_id = vips.event
+LEFT JOIN reservations 
+ON reservations.member_id = vips.member_id
+LEFT JOIN hotels
+ON reservations.hotel = hotels.hotel_id ; 
+
+
+--(Query with a Subquery) Find VIPs staying at the hotel with the most reservations.
+SELECT vips.first_name, vips.last_name, hotels.hotel_name
+FROM vips 
+JOIN reservations
+ON vips.member_id = reservations.member_id
+JOIN hotels ON reservations.hotel = hotels.hotel_id
+WHERE reservations.hotel = (SELECT hotel FROM reservations GROUP BY hotel 
+ORDER BY COUNT(*) DESC) ;
+
+
+--Get a list of all government-affiliated VIPs who have RSVP’d for dinner.
+SELECT vips.first_name, vips.last_name, vips.association
+FROM vips
+JOIN reservations
+ON vips.member_id = reservations.member_id 
+WHERE vips.assoc_type = "government" 
+AND reservations.dinner_rsvp = 1 ;
+
+
+--Find the number of VIPs attending each event, ordered by event attendance.
+SELECT events.event_name, COUNT(vips.member_id) AS attendee_count
+FROM events 
+LEFT JOIN vips
+ON events.event_id = vips.event
+GROUP BY events.event_name
+ORDER BY attendee_count DESC;
