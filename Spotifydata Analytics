@@ -49,6 +49,8 @@ SELECT artist_name, MAX(duration_ms)
 FROM Spotifydata
 ORDER BY artist_name ;
 
+
+#For this next query, i have used a CTE to answer the following quesions. 
 --Calculate the average popularity for the artists in the Spotify data table. 
 --Then, for every artist with an average popularity of 90 or above, show their name, 
 --their average popularity, and label them as a “Top Star”.
